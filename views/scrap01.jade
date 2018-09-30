@@ -1,0 +1,45 @@
+doctype xml
+rss(version='2.0',  
+    xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	xmlns:usat="http://www.usatoday.com/sports/"
+	xmlns:georss="http://www.georss.org/georss" xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:media="http://search.yahoo.com/mrss/")
+    channel
+        title= RSS.title
+        atom:link(href="https://myapp-tgreblu.c9users.io" + '/scrap01.xml', rel='self', type='application/rss+xml')
+        link <a href="#{RSS.link}" rel="nofollow">#{RSS.link}</a>
+        description= RSS.description
+        language en-US
+        image
+            link= RSS.link
+            title= RSS.title
+            url= RSS.image
+        if results.length
+        each item in results
+            item
+                //- Required items
+                title= item.title
+                link= item.link
+                description!= item.description
+                pubDate= item.pubDate
+                
+                //- Optional Elements
+                - if(typeof(item.author) != 'undefined')
+                    author=item.author
+                - if(typeof(item.comments) != 'undefined')
+                    comments=item.comments
+                - if(typeof(item.enclosure) != 'undefined')
+                    enclosure(url=item.enclosure.url, length=item.enclosure.length, type=item.enclosure.type)
+                - if(typeof(item.source) != 'undefined')
+                    source(url=item.source_title)=item.source
+                    
+                //- guid with optional permalink reference
+                - if(typeof(item.isPermaLink) != 'undefined' && item.isPermaLink){
+                    guid(isPermaLink="true")= item.guid 
+                - } else {
+                    guid <a href="#{item.link}" rel="nofollow">#{item.link}</a>
+                - }

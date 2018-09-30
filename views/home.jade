@@ -1,0 +1,10 @@
+extends layout
+
+block content
+    h1 The Scraping page
+    p Qui si trova l'elenco di tutti gli scraping attivi
+      h2 lista degli scraping
+      ul
+        each item in lista.coso
+          li
+            a(href="http://myapp-tgreblu.rhcloud.com/#{item.link}") #{item.title}
